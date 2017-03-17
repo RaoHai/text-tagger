@@ -277,7 +277,6 @@
 	            _this.setState({
 	                selection: value.getSelection()
 	            }, function () {
-	                console.log('>> onChange');
 	                _this.props.onChange(value.getCurrentContent());
 	            });
 	        };
@@ -304,7 +303,6 @@
 	        }]);
 	        _this.state = {
 	            value: props.value ? _draftJs.EditorState.createWithContent(props.value, _this._decorators) : _draftJs.EditorState.createEmpty(_this._decorators),
-	            dropdownVisible: false,
 	            clientRect: null,
 	            focused: false,
 	            selection: _draftJs.SelectionState.createEmpty('')
@@ -330,7 +328,6 @@
 	
 	        var _state = this.state,
 	            value = _state.value,
-	            dropdownVisible = _state.dropdownVisible,
 	            clientRect = _state.clientRect;
 	        var _props = this.props,
 	            prefixCls = _props.prefixCls,
@@ -39275,9 +39272,7 @@
 	        var _this = _possibleConstructorReturn(this, _React$Component.call(this));
 	
 	        _this.renderReady = function () {
-	            var _this$state = _this.state,
-	                clientRect = _this$state.clientRect,
-	                dropdownVisible = _this$state.dropdownVisible;
+	            var clientRect = _this.state.clientRect;
 	            var popupContainer = _this.popupContainer;
 	
 	            if (popupContainer && clientRect) {
@@ -39354,7 +39349,6 @@
 	
 	        var _props = this.props,
 	            container = _props.container,
-	            children = _props.children,
 	            prefixCls = _props.prefixCls;
 	        var dropdownVisible = this.state.dropdownVisible;
 	
@@ -40634,17 +40628,6 @@
 	
 	var _immutable = __webpack_require__(328);
 	
-	function getEntityRanges(ranges, accumulateLength, currentLength) {
-	    return ranges.takeWhile(function (range) {
-	        return range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= currentLength;
-	    }).map(function (range, idx) {
-	        return {
-	            offset: range[0] - accumulateLength,
-	            length: range[1] - range[0],
-	            key: accumulateLength + '-' + idx
-	        };
-	    });
-	}
 	function createFromText(text) {
 	    var ranges = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	
@@ -40673,19 +40656,22 @@
 	            text: block,
 	            type: 'unstyled',
 	            entityRanges: rangeForLoop.takeWhile(function (range) {
-	                return range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length;
-	            }).map(function (range, idx) {
-	                var entityKey = getEntityKey();
-	                entityMap['' + entityKey] = {
-	                    type: 'TOKEN',
-	                    mutability: 'MUTABLE',
-	                    data: range[2]
-	                };
-	                return {
-	                    offset: range[0] - accumulateLength,
-	                    length: range[1] - range[0],
-	                    key: '' + entityKey
-	                };
+	                return !!range && !!range[0] && !!range[1] && range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length;
+	            }).map(function (range) {
+	                if (!!range && !!range[0] && !!range[1]) {
+	                    var entityKey = getEntityKey();
+	                    entityMap['' + entityKey] = {
+	                        type: 'TOKEN',
+	                        mutability: 'MUTABLE',
+	                        data: range[2]
+	                    };
+	                    return {
+	                        offset: range[0] - accumulateLength,
+	                        length: range[1] - range[0],
+	                        key: '' + entityKey
+	                    };
+	                }
+	                return null;
 	            })
 	        });
 	        accumulateLength += block.length;
@@ -45737,7 +45723,7 @@
 	    var selection = editorState.getSelection();
 	    var text = (0, _getSelectedText2.default)(editorState);
 	    contentState.createEntity('TOKEN', 'MUTABLE', element);
-	    var replacedContent = _draftJs.Modifier.replaceText(contentState, selection, text, null, contentState.getLastCreatedEntityKey());
+	    var replacedContent = _draftJs.Modifier.replaceText(contentState, selection, text, undefined, contentState.getLastCreatedEntityKey());
 	    return _draftJs.EditorState.push(editorState, replacedContent, 'apply-entity');
 	}
 	module.exports = exports['default'];
@@ -45756,8 +45742,8 @@
 	    var blocks = contentState.getBlockMap();
 	    var ranges = [];
 	    blocks.map(function (block) {
-	        block.findEntityRanges(function (character) {
-	            return !!character.getEntity();
+	        block && block.findEntityRanges(function (character) {
+	            return !!character && !!character.getEntity();
 	        }, function (start, end) {
 	            var key = block.getEntityAt(start);
 	            var entityData = contentState.getEntity(key).getData();
@@ -45766,7 +45752,7 @@
 	    });
 	    return {
 	        text: blocks.map(function (block) {
-	            return block.getText();
+	            return block && block.getText();
 	        }).join('\n'),
 	        ranges: ranges
 	    };
