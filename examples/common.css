@@ -1,0 +1,36 @@
+.rc-text-tagger-dropdown {
+  position: absolute;
+  background-color: white;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: 1;
+  border: 1px solid #eee;
+  margin-top: 1.25em;
+  min-width: 220px;
+  max-width: 440px;
+  border-radius: 2px;
+  box-shadow: 0 4px 30px 0 #dcdcdc;
+  cursor: pointer;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  box-sizing: border-box;
+}
+.rc-text-tagger-dropdown-item {
+  padding: 7px 10px 3px;
+  -webkit-transition: background-color 0.4s cubic-bezier(0.27, 1.27, 0.48, 0.56);
+  transition: background-color 0.4s cubic-bezier(0.27, 1.27, 0.48, 0.56);
+}
+.rc-text-tagger-dropdown-item.focus,
+.rc-text-tagger-dropdown-item:hover {
+  background-color: #e6f3ff;
+}
+
+/*# sourceMappingURL=common.css.map*/
