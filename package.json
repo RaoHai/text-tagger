@@ -1,0 +1,80 @@
+{
+  "name": "rc-text-tagger",
+  "version": "0.0.1",
+  "description": "text-tagger ui component for react",
+  "keywords": [
+    "react",
+    "react-component",
+    "react-text-tagger",
+    "text-tagger"
+  ],
+  "homepage": "https://github.com/react-component/text-tagger",
+  "author": "surgesoft@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/react-component/text-tagger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/react-component/text-tagger/issues"
+  },
+  "files": [
+    "lib",
+    "assets/*.css"
+  ],
+  "licenses": "MIT",
+  "main": "./lib/index",
+  "config": {
+    "port": 8001
+  },
+  "scripts": {
+    "build": "rc-tools run build",
+    "gh-pages": "rc-tools run gh-pages",
+    "start": "rc-tools run server",
+    "pub": "rc-tools run pub",
+    "lint": "rc-tools run lint",
+    "karma": "rc-tools run karma",
+    "saucelabs": "rc-tools run saucelabs",
+    "test": "jest",
+    "chrome-test": "rc-tools run chrome-test",
+    "coverage": "rc-tools run coverage"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/preprocessor.js"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "testRegex": "/tests/.*\\.test\\.(ts|tsx)$"
+  },
+  "devDependencies": {
+    "@types/draft-js": "^0.10.0",
+    "@types/immutable": "^3.8.7",
+    "@types/react": "^15.0.16",
+    "babel-jest": "^17.0.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "enzyme": "^2.6.0",
+    "expect.js": "0.3.x",
+    "pre-commit": "1.x",
+    "rc-tools": "5.x",
+    "react": "15.x",
+    "react-addons-test-utils": "15.x",
+    "react-dom": "15.x",
+    "react-test-renderer": "^15.3.2",
+    "typescript-babel-jest": "^1.0.2"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "draft-js": "^0.10.0",
+    "immutable": "^3.8.1",
+    "rc-animate": "^2.3.3",
+    "rc-trigger": "^1.9.1"
+  }
+}
