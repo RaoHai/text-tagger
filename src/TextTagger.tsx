@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Editor, EditorState, convertFromRaw, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
 
 import Token from './components/Token.react';
 import Dropdown from './components/Dropdown.react';
@@ -12,9 +12,9 @@ import getData from './immutable/getData';
 
 export interface TextRangeProps {
   onSelectionChange: (text: string) => void;
-  suggestions?: Array<any>;
+  suggestions: Array<any>;
   prefixCls?: string,
-  onChange?: (any) => void;
+  onChange: (any) => void;
   onFocus?: () => void;
   onBlur?: () => void;
   value: EditorState;
@@ -22,13 +22,12 @@ export interface TextRangeProps {
 
 export interface TextRangeState {
   value: EditorState;
-  dropdownVisible: boolean;
-  clientRect?: ClientRect;
+  clientRect?: ClientRect | null;
   focused: boolean;
   selection: SelectionState;
 }
 
-function tokenStrategy(contentBlock, callback, contentState) {
+function tokenStrategy(contentBlock, callback, contentState: ContentState) {
   contentBlock.findEntityRanges(
     (character) => {
       const entityKey = character.getEntity();
@@ -67,7 +66,6 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
       value: props.value ? 
         EditorState.createWithContent(props.value, this._decorators) : 
         EditorState.createEmpty(this._decorators),
-      dropdownVisible: false,
       clientRect: null,
       focused: false,
       selection: SelectionState.createEmpty(''),
@@ -104,7 +102,6 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
     this.setState({ 
       selection: value.getSelection(),
     }, () => {
-      console.log('>> onChange');
       this.props.onChange(value.getCurrentContent());
     });
   }
@@ -126,7 +123,7 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
   }
 
   render() {
-    const { value, dropdownVisible, clientRect } = this.state;
+    const { value, clientRect } = this.state;
     const { prefixCls, suggestions } = this.props;
     return <div className="text-range-wrapper" ref={ele => this.wrapper = ele} >
       <Editor

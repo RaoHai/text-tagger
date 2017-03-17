@@ -12,7 +12,7 @@ export default function insertToken(editorState: EditorState, element: any) {
     contentState,
     selection,
     text,
-    null,
+    undefined,
     contentState.getLastCreatedEntityKey()
   );
 

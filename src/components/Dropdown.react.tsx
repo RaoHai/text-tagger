@@ -35,7 +35,7 @@ export default class Dropdown extends React.Component<DropdownProps, any> {
   }
 
   renderReady = () => {
-    const { clientRect, dropdownVisible } = this.state;
+    const { clientRect } = this.state;
     const { popupContainer } = this;
  
     if (popupContainer && clientRect) {
@@ -105,7 +105,7 @@ export default class Dropdown extends React.Component<DropdownProps, any> {
 
   
   render() {
-    const { container, children, prefixCls } = this.props;
+    const { container, prefixCls } = this.props;
     const { dropdownVisible } = this.state;
     
     return <Wrapper
