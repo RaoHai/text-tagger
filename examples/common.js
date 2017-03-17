@@ -277,6 +277,7 @@
 	            _this.setState({
 	                selection: value.getSelection()
 	            }, function () {
+	                console.log('>> onChange');
 	                _this.props.onChange(value.getCurrentContent());
 	            });
 	        };

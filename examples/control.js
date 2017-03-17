@@ -42,6 +42,7 @@ webpackJsonp([0],[
 	    return { value: (0, _rcTextTagger.createFromText)(exampleText, ranges) };
 	  },
 	  onChange: function onChange(value) {
+	    console.log(' onChange ');
 	    this.setState({
 	      value: value
 	    });
