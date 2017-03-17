@@ -197,6 +197,16 @@ webpackJsonp([0,1],[
 	        _this.onMentionSelect = function (element) {
 	            _this.onChange((0, _insertToken2.default)(_this.state.value, element));
 	        };
+	        _this.onFocus = function () {
+	            _this.props.onFocus && _this.props.onFocus();
+	            (0, _setImmediate2.default)(function () {
+	                return _this.setState({ focused: true });
+	            });
+	        };
+	        _this.onBlur = function () {
+	            _this.props.onBlur && _this.props.onBlur();
+	            _this.setState({ focused: false });
+	        };
 	        var tag = props.tag;
 	
 	        var decorators = new _draftJs.CompositeDecorator([{
@@ -228,13 +238,7 @@ webpackJsonp([0,1],[
 	
 	        return React.createElement("div", { className: "text-range-wrapper", ref: function ref(ele) {
 	                return _this2.wrapper = ele;
-	            } }, React.createElement(_draftJs.Editor, { onChange: this.onChange, editorState: this.state.value, onFocus: function onFocus() {
-	                return (0, _setImmediate2.default)(function () {
-	                    return _this2.setState({ focused: true });
-	                });
-	            }, onBlur: function onBlur() {
-	                return _this2.setState({ focused: false });
-	            } }), React.createElement(_Dropdown2.default, { prefixCls: prefixCls, clientRect: clientRect, container: this.dropdownContaienr, wrapper: this.wrapper, selection: value.getSelection(), selectedText: (0, _getSelectedText2.default)(value), outerVisible: this.state.focused, suggestions: suggestions, onMentionSelect: this.onMentionSelect }));
+	            } }, React.createElement(_draftJs.Editor, { onChange: this.onChange, editorState: this.state.value, onFocus: this.onFocus, onBlur: this.onBlur }), React.createElement(_Dropdown2.default, { prefixCls: prefixCls, clientRect: clientRect, container: this.dropdownContaienr, wrapper: this.wrapper, selection: value.getSelection(), selectedText: (0, _getSelectedText2.default)(value), outerVisible: this.state.focused, suggestions: suggestions, onMentionSelect: this.onMentionSelect }));
 	    };
 	
 	    return TextTagger;
