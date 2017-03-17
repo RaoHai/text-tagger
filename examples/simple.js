@@ -22,4 +22,5 @@ ReactDOM.render(<TextTagger
   onSelectionChange={(text) => console.log('onSelectionChange', text)}
   suggestions={['aaa', 'bbb', 'ccc']}
   onChange={onChange}
+  tag={(props) => <span>{props.children}</span>}
 />, document.getElementById('__react-content'));

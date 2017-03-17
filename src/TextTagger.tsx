@@ -52,9 +52,10 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
   constructor(props) {
     super(props);
 
+    const { tag } = props;
     const decorators = new CompositeDecorator([{
       strategy: tokenStrategy,
-      component: Token,
+      component: (props) => tag ? React.createElement(tag, props) : <Token {...props} />,
     }]);
 
     this.state = {
