@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Editor, EditorState, convertFromRaw, ContentState, CompositeDecorator } from 'draft-js';
+import { Editor, EditorState, convertFromRaw, SelectionState, ContentState, CompositeDecorator } from 'draft-js';
 
 import Token from './components/Token.react';
 import Dropdown from './components/Dropdown.react';
@@ -11,11 +11,13 @@ import insertToken from './immutable/insertToken';
 import getData from './immutable/getData';
 
 export interface TextRangeProps {
-  value: ContentState;
   onSelectionChange: (text: string) => void;
   suggestions?: Array<any>;
   prefixCls?: string,
   onChange?: (any) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  value: EditorState;
 }
 
 export interface TextRangeState {
@@ -23,6 +25,7 @@ export interface TextRangeState {
   dropdownVisible: boolean;
   clientRect?: ClientRect;
   focused: boolean;
+  selection: SelectionState;
 }
 
 function tokenStrategy(contentBlock, callback, contentState) {
@@ -44,7 +47,8 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
 
   private dropdownContaienr: Element;
   private wrapper: Element;
-
+  private _decorators: CompositeDecorator;
+  
   static defaultProps = {
     prefixCls: 'rc-text-tagger',
   };
@@ -53,16 +57,20 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
     super(props);
 
     const { tag } = props;
-    const decorators = new CompositeDecorator([{
+    
+    this._decorators = new CompositeDecorator([{
       strategy: tokenStrategy,
       component: (props) => tag ? React.createElement(tag, props) : <Token {...props} />,
     }]);
 
     this.state = {
-      value: props.value ? EditorState.createWithContent(props.value, decorators) : EditorState.createEmpty(decorators),
+      value: props.value ? 
+        EditorState.createWithContent(props.value, this._decorators) : 
+        EditorState.createEmpty(this._decorators),
       dropdownVisible: false,
       clientRect: null,
       focused: false,
+      selection: SelectionState.createEmpty(''),
     };
 
     this.dropdownContaienr = this.getContainer();
@@ -75,17 +83,46 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
     return popupContainer;
   }
 
-  onChange = (value: EditorState) => {
-    this.setState({ 
+  componentWillReceiveProps(nextProps) {
+    const { selection } = this.state;
+    let value = nextProps.value;
+    if (value && selection) {
+      value = EditorState.acceptSelection(
+        EditorState.createWithContent(
+          value, 
+          this._decorators
+        ),
+        selection,
+      );
+    }
+    this.setState({
       value,
     });
-    this.props.onChange(value);
+  }
+
+  onChange = (value: EditorState) => {
+    this.setState({ 
+      selection: value.getSelection(),
+    }, () => {
+      console.log('>> onChange');
+      this.props.onChange(value.getCurrentContent());
+    });
   }
 
   onMentionSelect = (element) => {
     this.onChange(
       insertToken(this.state.value, element),
     );
+  }
+
+  onFocus = () => {
+    this.props.onFocus && this.props.onFocus();
+    setImmediate(() => this.setState({ focused: true }));
+  }
+
+  onBlur = () => {
+    this.props.onBlur && this.props.onBlur();
+    this.setState({ focused: false });
   }
 
   render() {
@@ -95,8 +132,8 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
       <Editor
         onChange={this.onChange}
         editorState={this.state.value}
-        onFocus={() => setImmediate(() => this.setState({ focused: true }))}
-        onBlur={() => this.setState({ focused: false })}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
       />
       <Dropdown 
         prefixCls={prefixCls}

@@ -1,7 +1,6 @@
-import { EditorState } from 'draft-js';
+import { ContentState } from 'draft-js';
 
-export default function getData(editorState: EditorState) {
-  const contentState = editorState.getCurrentContent();
+export default function getData(contentState: ContentState) {
   const blocks = contentState.getBlockMap();
   const ranges = [];
   blocks.map(block => {
