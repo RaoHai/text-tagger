@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-text-tagger@0.0.1</title>
+  <title>simple.js - example - rc-text-tagger@0.0.2</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -263,7 +263,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
 <body>
   <div class="container">
     <div class="header">
-      <h1>rc-text-tagger@0.0.1</h1>
+      <h1>rc-text-tagger@0.0.2</h1>
 
       <p>text-tagger ui component for react</p>
     </div>
@@ -293,6 +293,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   <span class="hljs-attribute">onSelectionChange</span>=<span class="hljs-value">{(text)</span> =&gt;</span> console.log('onSelectionChange', text)}
   suggestions={['aaa', 'bbb', 'ccc']}
   onChange={onChange}
+  tag={(props) =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
 /&gt;, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>

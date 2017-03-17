@@ -42,7 +42,14 @@ webpackJsonp([0,1],[
 	    return console.log('onSelectionChange', text);
 	  },
 	  suggestions: ['aaa', 'bbb', 'ccc'],
-	  onChange: onChange
+	  onChange: onChange,
+	  tag: function tag(props) {
+	    return _react2.default.createElement(
+	      'span',
+	      null,
+	      props.children
+	    );
+	  }
 	}), document.getElementById('__react-content'));
 
 /***/ },
@@ -146,6 +153,16 @@ webpackJsonp([0,1],[
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 	
+	var __assign = undefined && undefined.__assign || Object.assign || function (t) {
+	    for (var s, i = 1, n = arguments.length; i < n; i++) {
+	        s = arguments[i];
+	        for (var p in s) {
+	            if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+	        }
+	    }
+	    return t;
+	};
+	
 	function tokenStrategy(contentBlock, callback, contentState) {
 	    contentBlock.findEntityRanges(function (character) {
 	        var entityKey = character.getEntity();
@@ -180,9 +197,13 @@ webpackJsonp([0,1],[
 	        _this.onMentionSelect = function (element) {
 	            _this.onChange((0, _insertToken2.default)(_this.state.value, element));
 	        };
+	        var tag = props.tag;
+	
 	        var decorators = new _draftJs.CompositeDecorator([{
 	            strategy: tokenStrategy,
-	            component: _Token2.default
+	            component: function component(props) {
+	                return tag ? React.createElement(tag, props) : React.createElement(_Token2.default, __assign({}, props));
+	            }
 	        }]);
 	        _this.state = {
 	            value: props.value ? _draftJs.EditorState.createWithContent(props.value, decorators) : _draftJs.EditorState.createEmpty(decorators),
