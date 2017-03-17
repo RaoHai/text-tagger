@@ -1,14 +1,12 @@
-webpackJsonp([1],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(332);
+	module.exports = __webpack_require__(1);
 
 
 /***/ },
-
-/***/ 332:
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38,23 +36,37 @@ webpackJsonp([1],{
 	  console.log((0, _rcTextTagger.getData)(editorState));
 	}
 	
-	_reactDom2.default.render(_react2.default.createElement(_rcTextTagger2.default, {
-	  value: (0, _rcTextTagger.createFromText)(exampleText, ranges),
-	  onSelectionChange: function onSelectionChange(text) {
-	    return console.log('onSelectionChange', text);
+	var App = _react2.default.createClass({
+	  displayName: 'App',
+	  getInitialState: function getInitialState() {
+	    return { value: (0, _rcTextTagger.createFromText)(exampleText, ranges) };
 	  },
-	  suggestions: ['aaa', 'bbb', 'ccc'],
-	  onChange: onChange,
-	  tag: function tag(props) {
-	    return _react2.default.createElement(
-	      'span',
-	      null,
-	      props.children
-	    );
+	  onChange: function onChange(value) {
+	    this.setState({
+	      value: value
+	    });
+	  },
+	  render: function render() {
+	    return _react2.default.createElement(_rcTextTagger2.default, {
+	      value: this.state.value,
+	      onSelectionChange: function onSelectionChange(text) {
+	        return console.log('onSelectionChange', text);
+	      },
+	      suggestions: ['aaa', 'bbb', 'ccc'],
+	      onChange: this.onChange,
+	      tag: function tag(props) {
+	        return _react2.default.createElement(
+	          'span',
+	          null,
+	          props.children
+	        );
+	      }
+	    });
 	  }
-	}), document.getElementById('__react-content'));
+	});
+	
+	_reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('__react-content'));
 
 /***/ }
-
-});
-//# sourceMappingURL=simple.js.map
+]);
+//# sourceMappingURL=control.js.map

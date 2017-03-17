@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>simple.js - example - rc-text-tagger@0.0.4</title>
+  <title>control.js - example - rc-text-tagger@0.0.4</title>
   <meta name="viewport"
         content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
   <meta charset="utf-8"/>
@@ -288,13 +288,28 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   <span class="hljs-built_in">console</span>.log(getData(editorState));
 }
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TextTagger</span> 
-  <span class="hljs-attribute">value</span>=<span class="hljs-value">{createFromText(exampleText,</span> <span class="hljs-attribute">ranges</span>)} 
-  <span class="hljs-attribute">onSelectionChange</span>=<span class="hljs-value">{(text)</span> =&gt;</span> console.log('onSelectionChange', text)}
-  suggestions={['aaa', 'bbb', 'ccc']}
-  onChange={onChange}
-  tag={(props) =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
-/&gt;, document.getElementById('__react-content'));
+<span class="hljs-keyword">const</span> App = React.createClass({
+  getInitialState() {
+    <span class="hljs-keyword">return</span> { value : createFromText(exampleText, ranges)};
+  },
+  onChange(value) {
+    <span class="hljs-keyword">this</span>.setState({
+      value,
+    });
+  },
+  render() {
+    <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">TextTagger</span> 
+      <span class="hljs-attribute">value</span>=<span class="hljs-value">{this.state.value}</span> 
+      <span class="hljs-attribute">onSelectionChange</span>=<span class="hljs-value">{(text)</span> =&gt;</span> console.log('onSelectionChange', text)}
+      suggestions={['aaa', 'bbb', 'ccc']}
+      onChange={this.onChange}
+      tag={(props) =&gt; <span class="hljs-tag">&lt;<span class="hljs-title">span</span>&gt;</span>{props.children}<span class="hljs-tag">&lt;/<span class="hljs-title">span</span>&gt;</span>}
+    /&gt;
+  }
+});
+
+
+ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-title">App</span> /&gt;</span>, document.getElementById('__react-content'));
 </span></code></pre></div>
   </div>
   <a href="https://github.com/react-component/text-tagger">
@@ -305,7 +320,7 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-t
   </a>
   <script>FastClick.attach(document.body);</script>
   <script src="common.js?nowrap"></script>
-  <script src="simple.js?nowrap"></script>
+  <script src="control.js?nowrap"></script>
 </body>
 
 </html>
