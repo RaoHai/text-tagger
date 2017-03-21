@@ -206,6 +206,10 @@
 	
 	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
+	var _Option = __webpack_require__(326);
+	
+	var _Option2 = _interopRequireDefault(_Option);
+	
 	var _setImmediate = __webpack_require__(258);
 	
 	var _setImmediate2 = _interopRequireDefault(_setImmediate);
@@ -349,6 +353,7 @@
 	
 	TextTagger.createFromText = _createFromText2.default;
 	TextTagger.getData = _getData2.default;
+	TextTagger.Option = _Option2.default;
 	TextTagger.defaultProps = {
 	    prefixCls: 'rc-text-tagger'
 	};
@@ -39314,6 +39319,14 @@
 	                var mentionClass = (0, _classnames2.default)(prefixCls + '-dropdown-item', {
 	                    focused: focusedItem
 	                });
+	                console.log('>> isValidElement', element);
+	                if (React.isValidElement(element)) {
+	                    return React.cloneElement(element, {
+	                        ref: ref,
+	                        className: mentionClass,
+	                        onMouseDown: _this.props.onMentionSelect.bind(_this, element.props.data)
+	                    });
+	                }
 	                return React.createElement(_Option2.default, { ref: ref, className: mentionClass, onMouseDown: _this.props.onMentionSelect.bind(_this, element) }, element);
 	            }) : React.createElement("div", { className: prefixCls + '-dropdown-notfound ' + prefixCls + '-dropdown-item' }, _this.props.notFoundContent);
 	        };
