@@ -39319,7 +39319,6 @@
 	                var mentionClass = (0, _classnames2.default)(prefixCls + '-dropdown-item', {
 	                    focused: focusedItem
 	                });
-	                console.log('>> isValidElement', element);
 	                if (React.isValidElement(element)) {
 	                    return React.cloneElement(element, {
 	                        ref: ref,
