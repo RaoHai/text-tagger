@@ -40648,11 +40648,8 @@
 	    var ranges = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	
 	    var contentState = _draftJs.ContentState.createFromText(text);
-	    if (!text) {
-	        return _draftJs.EditorState.createEmpty();
-	    }
-	    if (!ranges.length) {
-	        return _draftJs.EditorState.createWithContent(contentState);
+	    if (!text || !ranges.length) {
+	        return contentState;
 	    }
 	    var blockTexts = text.split('\n');
 	    var rangeForLoop = (0, _immutable.List)(ranges.slice());
