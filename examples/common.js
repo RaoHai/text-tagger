@@ -40644,6 +40644,9 @@
 	
 	var _immutable = __webpack_require__(328);
 	
+	function notNull(value) {
+	    return !(value == undefined || value == null) && !isNaN(value);
+	}
 	function createFromText(text) {
 	    var ranges = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	
@@ -40669,7 +40672,7 @@
 	            text: block,
 	            type: 'unstyled',
 	            entityRanges: rangeForLoop.takeWhile(function (range) {
-	                return !!range && !!range[0] && !!range[1] && range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length;
+	                return !!range && notNull(range[0]) && notNull(range[1]) && range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length;
 	            }).map(function (range) {
 	                if (!!range && !!range[0] && !!range[1]) {
 	                    var entityKey = getEntityKey();
