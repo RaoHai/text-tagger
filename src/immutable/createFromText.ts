@@ -4,12 +4,16 @@ import { List } from 'immutable';
 export type Range = [ number, number, any ];
 export type IRange = List<Range>;
 
+function notNull(value:any) {
+  return !(value == undefined || value == null);
+}
+
 export default function createFromText(text: string, ranges: Array<Range> = []) {
   const contentState = ContentState.createFromText(text);
   if (!text || ! ranges.length) {
     return contentState;
   }
-  
+
   // spilit text into blocks
   const blockTexts = text.split('\n');
   let rangeForLoop = List(ranges.slice()) as List<Range>;
@@ -24,14 +28,14 @@ export default function createFromText(text: string, ranges: Array<Range> = []) 
       text: block,
       type: 'unstyled',
       entityRanges: rangeForLoop
-        .takeWhile(range => 
-          !!range && !!range[0] && !!range[1]
+        .takeWhile(range =>
+          !!range && notNull(range[0]) && notNull(range[1])
           && range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length
         )
         .map(range => {
           if (!!range && !!range[0] && !!range[1]) {
             const entityKey = getEntityKey();
-            
+
             entityMap[`${entityKey}`] = {
               type: 'TOKEN',
               mutability: 'MUTABLE',
@@ -53,5 +57,5 @@ export default function createFromText(text: string, ranges: Array<Range> = []) 
   return convertFromRaw({
     blocks,
     entityMap,
-  });  
+  });
 }
