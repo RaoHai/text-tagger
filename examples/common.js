@@ -40674,7 +40674,7 @@
 	            entityRanges: rangeForLoop.takeWhile(function (range) {
 	                return !!range && notNull(range[0]) && notNull(range[1]) && range[0] - accumulateLength >= 0 && range[1] - accumulateLength <= block.length;
 	            }).map(function (range) {
-	                if (!!range && !!range[0] && !!range[1]) {
+	                if (!!range && notNull(range[0]) && notNull(range[1])) {
 	                    var entityKey = getEntityKey();
 	                    entityMap['' + entityKey] = {
 	                        type: 'TOKEN',
