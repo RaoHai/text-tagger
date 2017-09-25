@@ -4,12 +4,12 @@ import Animate from 'rc-animate';
 import { SelectionState } from 'draft-js';
 
 import Wrapper from './Wrapper.react';
-import Option from '../components/Option.react';
+import Option, { OptionProps } from '../components/Option.react';
 
 
 export interface DropdownProps {
   prefixCls?: string;
-  suggestions: Array<any>;
+  suggestions: Array<string> | Array<React.ReactElement<OptionProps>>;
   notFoundContent?: string;
   container: Element;
   clientRect: any;
@@ -93,6 +93,13 @@ export default class Dropdown extends React.Component<DropdownProps, any> {
       const mentionClass = cx(`${prefixCls}-dropdown-item`, {
         focused: focusedItem,
       });
+      if (React.isValidElement(element)) {
+        return React.cloneElement(element as React.ReactElement<OptionProps>, {
+          ref,
+          className: mentionClass,
+          onMouseDown: this.props.onMentionSelect.bind(this, (element as React.ReactElement<OptionProps>).props.data)
+        });
+      }
       return (<Option ref={ref}
         className={mentionClass}
         onMouseDown={this.props.onMentionSelect.bind(this, element)}

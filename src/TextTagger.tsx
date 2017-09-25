@@ -3,6 +3,7 @@ import { Editor, EditorState, SelectionState, ContentState, CompositeDecorator }
 
 import Token from './components/Token.react';
 import Dropdown from './components/Dropdown.react';
+import Option from './components/Option.react';
 
 import setImmediate from 'fbjs/lib/setImmediate';
 import createFromText from './immutable/createFromText';
@@ -24,7 +25,7 @@ export interface TextRangeState {
   value: EditorState;
   clientRect?: ClientRect | null;
   focused: boolean;
-  selection: SelectionState;
+  selection?: SelectionState | null;
 }
 
 function tokenStrategy(contentBlock, callback, contentState: ContentState) {
@@ -43,6 +44,7 @@ function tokenStrategy(contentBlock, callback, contentState: ContentState) {
 export default class TextTagger extends React.Component<TextRangeProps, TextRangeState> {
   static createFromText = createFromText;
   static getData = getData;
+  static Option = Option;
 
   private dropdownContaienr: Element;
   private wrapper: Element;
@@ -68,7 +70,7 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
         EditorState.createEmpty(this._decorators),
       clientRect: null,
       focused: false,
-      selection: SelectionState.createEmpty(''),
+      selection: null,
     };
 
     this.dropdownContaienr = this.getContainer();
@@ -84,18 +86,25 @@ export default class TextTagger extends React.Component<TextRangeProps, TextRang
   componentWillReceiveProps(nextProps) {
     const { selection } = this.state;
     let value = nextProps.value;
-    if (value && selection) {
-      value = EditorState.acceptSelection(
-        EditorState.createWithContent(
+    if (!value.equals(this.state.value)) {
+      if (selection) {
+         value = EditorState.acceptSelection(
+          EditorState.createWithContent(
+            value, 
+            this._decorators
+          ),
+          selection,
+        );
+      } else {
+        value = EditorState.createWithContent(
           value, 
           this._decorators
-        ),
-        selection,
-      );
+        );
+      }
+      this.setState({
+        value,
+      });
     }
-    this.setState({
-      value,
-    });
   }
 
   onChange = (value: EditorState) => {

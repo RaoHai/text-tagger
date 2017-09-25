@@ -6,11 +6,8 @@ export type IRange = List<Range>;
 
 export default function createFromText(text: string, ranges: Array<Range> = []) {
   const contentState = ContentState.createFromText(text);
-  if (!text) {
-    return EditorState.createEmpty();
-  }
-  if (!ranges.length) {
-    return EditorState.createWithContent(contentState);
+  if (!text || ! ranges.length) {
+    return contentState;
   }
   
   // spilit text into blocks

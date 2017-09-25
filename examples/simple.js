@@ -1,7 +1,7 @@
 // use jsx to render html, do not modify simple.html
 
-import 'rc-text-tagger/assets/index.less';
-import TextTagger, { createFromText, getData } from 'rc-text-tagger';
+import '@ali/rc-text-tagger/assets/index.less';
+import TextTagger, { createFromText, getData } from '@ali/rc-text-tagger';
 import React from 'react';
 import ReactDOM from 'react-dom';
 

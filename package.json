@@ -1,6 +1,6 @@
 {
-  "name": "rc-text-tagger",
-  "version": "0.1.2",
+  "name": "@ali/rc-text-tagger",
+  "version": "0.1.11",
   "description": "text-tagger ui component for react",
   "keywords": [
     "react",
@@ -24,7 +24,7 @@
   "licenses": "MIT",
   "main": "./lib/index",
   "config": {
-    "port": 8001
+    "port": 8002
   },
   "scripts": {
     "build": "rc-tools run build",
@@ -76,5 +76,8 @@
     "immutable": "^3.8.1",
     "rc-animate": "^2.3.3",
     "rc-trigger": "^1.9.1"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.alibaba-inc.com"
   }
 }
